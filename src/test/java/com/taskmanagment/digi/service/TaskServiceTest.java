@@ -73,7 +73,7 @@ class TaskServiceTest {
     void testTaskFilterationByDueDate() {
 
         TaskFilterationDto filterDto = new TaskFilterationDto();
-        filterDto.setDueDate(LocalDate.of(2023, 5, 8));
+        filterDto.setDueDate(LocalDate.parse("2023-05-08"));
 
         when(taskRepository.findAll()).thenReturn(tasks);
 
@@ -89,7 +89,7 @@ class TaskServiceTest {
         TaskFilterationDto filterDto = new TaskFilterationDto();
         filterDto.setStatus(TaskStatus.INPROCESSING);
         filterDto.setPriority(TaskPriority.HIGH);
-        filterDto.setDueDate(LocalDate.of(2024, 7, 15));
+        filterDto.setDueDate(LocalDate.parse("2023-05-08"));
 
 
         when(taskRepository.findAll()).thenReturn(tasks);
