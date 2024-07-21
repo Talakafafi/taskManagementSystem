@@ -20,11 +20,14 @@ public class UserController {
 
     /**
      * {
-     *   "username": "john_doe",
-     *   "email": "john.doeex@ample.com"
+     *   "username": "user",
+     *   "email": "user@gmail.com"
      * }
      * @param userRequest
      * @return
+     *
+     *   throw a MethodArgumentNotValidException If filled with wrong data because of the Valid annotation
+     *   (the error handled inside com.taskmanagment.digi.exception.handler / Via handleInvalidArgument() method )
      */
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody @Valid UserRequestDto userRequest) {//if I do not have dto, It should be used ( @RequestBody User user) in that case ID is also a requirement

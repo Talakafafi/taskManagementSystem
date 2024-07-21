@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
-    Project findByTaskId(int projectId);
+
+
 }
 

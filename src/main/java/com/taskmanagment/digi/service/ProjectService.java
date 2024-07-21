@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,8 +33,8 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Project addTaskToProject (int ProjectId , TaskRequestDto task){
-        Project project=   projectRepository.findByTaskId(ProjectId);
+    public Project addTaskToProject (int ProjectId , TaskRequestDto task) throws NoSuchElementException {
+        Project project=   projectRepository.findById(ProjectId).orElseThrow();
 
         List<Task> tasks = project.getTasks().stream()
                 .map(dto ->  Task.build(0,dto.getTitle(),dto.getDescription(),dto.getStatus(),dto.getPriority(),dto.getDueDate(),project))

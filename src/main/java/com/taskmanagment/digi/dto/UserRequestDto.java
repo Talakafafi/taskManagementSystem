@@ -18,8 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 /**
  * provides a template for the required data to be filled
- * throw a MethodArgumentNotValidException If filled with wrong data
- * (the error handled inside com.taskmanagment.digi.exception.handler / Via handleInvalidArgument() method )
  */
 public class UserRequestDto {
     @NotNull(message = "username ")

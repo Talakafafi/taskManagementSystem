@@ -4,46 +4,31 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
+
 
 @Data
 @Entity
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-@Table(name = "PROJECT")
+@Table(name = "PROJECTS")
 public class Project {
-
-        private int id;
-        private String name;
-        private List<Task> tasks;
 
     @Id
     @GeneratedValue(generator = "projectIdGen",strategy = GenerationType.AUTO )
     @Column(name = "PROJECT_ID")
-    public int getId() {
-        return id;
-    }
+        private int projectId;
 
-    public void setId(int id) {
-        this.id = id;
-    }
     @Column(name = "PROJECT_NAME")
-    public String getName() {
-        return name;
-    }
+        private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "PROJECT_TASKS")
-    public List<Task> getTasks() {
-        return tasks;
-    }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
+
+
+
 }
