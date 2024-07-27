@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.taskmanagment.digi.dto.TaskFilterationDto;
 import com.taskmanagment.digi.dto.TaskRequestDto;
+import com.taskmanagment.digi.dto.TaskUpdateRequestDto;
 import com.taskmanagment.digi.entities.*;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.exception.type.UnmatchedUsers;
@@ -69,7 +70,7 @@ class TaskServiceTest {
         task.setTaskId(taskId);
         when(taskRepository.findByTaskId(taskId)).thenReturn(task);
 
-        TaskRequestDto taskRequestDto = new TaskRequestDto();
+        TaskUpdateRequestDto taskRequestDto = new TaskUpdateRequestDto();
         taskRequestDto.setTitle("new title ");
             Task updatedTask = taskService.updateUser(taskId, taskRequestDto);
 
@@ -82,8 +83,8 @@ class TaskServiceTest {
         Task task= new Task();
         when(taskRepository.findByTaskId(task.getTaskId())).thenReturn(task);
 
-        TaskRequestDto taskRequestDto = TaskRequestDto.build("Task5", "Description5", TaskStatus.COMPLETED,
-                TaskPriority.LOW, LocalDate.parse("2023-05-12"),null);
+        TaskUpdateRequestDto taskRequestDto = TaskUpdateRequestDto.build("Task5", "Description5", TaskStatus.COMPLETED,
+                TaskPriority.LOW, LocalDate.parse("2023-05-12"));
         Task updatedTask = taskService.updateUser(task.getTaskId(), taskRequestDto);
 
         assertEquals(taskRequestDto.getTitle(), updatedTask.getTitle(), "The title should be updated.");
@@ -98,7 +99,7 @@ class TaskServiceTest {
     void updateTask_UpdatesTheTitleForNotExistingId_ThrowsIdNotFoundExceptionException() throws IdNotFoundException {
       when(taskRepository.findByTaskId(2L)).thenReturn(null);
 
-        TaskRequestDto taskRequestDto = new TaskRequestDto();
+        TaskUpdateRequestDto taskRequestDto = new TaskUpdateRequestDto();
         taskRequestDto.setTitle("new title ");
 
         assertThrows(IdNotFoundException.class, () -> {

@@ -1,6 +1,6 @@
 package com.taskmanagment.digi.dto;
 /**
- used as the body of tasks/addTask API
+ used as the body of tasks/updateTask API
  {
  "title": "Sample Task Title",
  "description": "This is a sample task description.",
@@ -9,7 +9,7 @@ package com.taskmanagment.digi.dto;
  "dueDate": "2024-07-31",
  "usersId": [1, 2, 3]
  }
- **/
+ */
 import com.taskmanagment.digi.entities.TaskPriority;
 import com.taskmanagment.digi.entities.TaskStatus;
 import jakarta.validation.constraints.NotNull;
@@ -19,21 +19,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Set;
-
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-public class TaskUserRequestDto {
-    @NotNull(message = "Title cannot be null")
-    private String title;
-    @NotNull(message = "Description cannot be null")
-    private String description;
-    @NotNull(message = "Status cannot be null")
-    private TaskStatus status;
-    @NotNull(message = "Priority cannot be null")
-    private TaskPriority priority;
-    @NotNull(message = "Date cannot be null ")
-    private LocalDate dueDate;
+public class TaskUpdateRequestDto {
+        private String title;
 
-    private Set<Long> usersId;
-}
+        private String description;
+
+        private TaskStatus status;
+
+        private TaskPriority priority;
+
+        private LocalDate dueDate;
+
+    }
+
+

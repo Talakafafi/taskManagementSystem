@@ -22,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "userIdGen", strategy = GenerationType.SEQUENCE)//very efficient and allows Hibernate to decide when to perform the insert statement
-    @Column(name = "USER_ID")                                                   //Auto which is the default  For most popular databases, it selects GenerationType.SEQUENCE
+    @Column(name = "USER_ID")
     private Long userId;
 
     @Column(name = "USER_USERNAME")
@@ -31,7 +31,7 @@ public class User {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @ManyToMany(mappedBy = "users" )
+    @ManyToMany(mappedBy = "users"  )
     private Set<Task> tasks;
 
 

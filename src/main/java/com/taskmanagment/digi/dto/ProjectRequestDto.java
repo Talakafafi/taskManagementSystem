@@ -1,10 +1,15 @@
 package com.taskmanagment.digi.dto;
 
-import com.taskmanagment.digi.entities.Task;
+/**
+ used as the body of projects/addProject API
+
+ {
+ "name": " Project Name"
+ }
+
+ */
+
 import lombok.*;
-
-import java.util.List;
-
 
 @Data
 @AllArgsConstructor(staticName = "build")
@@ -12,8 +17,3 @@ import java.util.List;
 public class ProjectRequestDto {
     private String name;
 }
-/**
- * {
- *   "name": "Sample Project Name"
- * }
- */

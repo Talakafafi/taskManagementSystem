@@ -3,6 +3,7 @@ package com.taskmanagment.digi.service;
 import com.taskmanagment.digi.dto.TaskFilterationDto;
 
 import com.taskmanagment.digi.dto.TaskRequestDto;
+import com.taskmanagment.digi.dto.TaskUpdateRequestDto;
 import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
@@ -28,16 +29,35 @@ public class TaskServices {
     @Autowired
     private UserRepository userRepository;
 
-
+    /**
+     * adds new task
+     * here the project will be inserted as null ,
+     * since this method will be used only for tasks are not associated to project
+     * @param taskRequestDto contains the data needed to fill the Task object
+     * @return the added task
+     */
     public Task addTask(TaskRequestDto taskRequestDto) {
         Task task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
                 , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, taskRequestDto.getUsers());
+
         return taskRepository.save(task);
     }
+
+    /**
+     * returns all the tasks in the data base
+     * @return
+     */
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+
+    /**
+     * returns task with specific Id
+     * @param taskId
+     * @return
+     * @throws IdNotFoundException if the Id does not exist
+     */
 
     public Task getTask(Long taskId) throws IdNotFoundException {
         Task task = taskRepository.findByTaskId(taskId);
@@ -48,7 +68,15 @@ public class TaskServices {
         }
     }
 
-    public Task updateUser(Long taskId, TaskRequestDto taskDto) throws IdNotFoundException {
+    /**
+     * updates the user details
+     * @param taskId
+     * @param taskDto contains the data to be updated ,all fields here are nullable ,
+     *                if the field is null , value  remains the same
+     * @return
+     * @throws IdNotFoundException  if the id does not exist
+     */
+    public Task updateUser(Long taskId, TaskUpdateRequestDto taskDto) throws IdNotFoundException {
         Task updatedTask = taskRepository.findByTaskId(taskId);
         if (updatedTask != null) {
             updatedTask.setTitle((taskDto.getTitle() == null) ? updatedTask.getTitle() : taskDto.getTitle());
@@ -64,6 +92,12 @@ public class TaskServices {
         }
     }
 
+    /**
+     * removes task from the database
+     * @param taskId
+     * @throws IdNotFoundException if the id does not exist
+     */
+
     public void removeTask(Long taskId) throws IdNotFoundException {
         Task deletedTask = taskRepository.findByTaskId(taskId);
         if (deletedTask != null) {
@@ -73,6 +107,11 @@ public class TaskServices {
         }
     }
 
+    /**
+     * filters the tasks using the passed data
+     * filters the tasks depending on the status , priority and data
+     * all the passed parameters are nullable
+     */
     public List<Task> taskFiltration(TaskFilterationDto taskFilterationDto) {
         Stream<Task> streamFromList = taskRepository.findAll().stream();
         if (taskFilterationDto.getStatus() != null) {
@@ -96,7 +135,10 @@ public class TaskServices {
 
         return streamFromList.toList();
     }
-
+    /**
+     * sort  by the status, priority, or due date.
+     * @param sortingCriteria the datafile to sort by
+     */
     public List<Task> sort(int sortingCriteria) {
         Stream<Task> streamFromList = taskRepository.findAll().stream();
         List<Task> tasks;

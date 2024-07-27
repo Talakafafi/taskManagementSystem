@@ -1,14 +1,14 @@
 package com.taskmanagment.digi.controller;
 
+import com.taskmanagment.digi.dto.TaskFilterationDto;
 import com.taskmanagment.digi.dto.TaskRequestDto;
 import com.taskmanagment.digi.dto.TaskUserRequestDto;
-import com.taskmanagment.digi.dto.UserRequestDto;
 import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.exception.type.UnmatchedUsers;
 import com.taskmanagment.digi.service.TaskServices;
-import com.taskmanagment.digi.service.Task_UserService;
+import com.taskmanagment.digi.service.TaskUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class TaskController {
     @Autowired
     private TaskServices taskServices;
     @Autowired
-    private Task_UserService taskUserService;
+    private TaskUserService taskUserService;
 
 
     @PostMapping("/addTaskAuth")
@@ -40,6 +40,32 @@ public class TaskController {
     public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskServices.getAllTasks());
     }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<Task>> FilterTask (@RequestBody  TaskFilterationDto taskFilterationDto){
+        return ResponseEntity.ok(taskServices.taskFiltration(taskFilterationDto));
+    }
+
+    @GetMapping("/SortByPriority")
+    public  ResponseEntity<List<Task>> SortByPriority(){
+        return ResponseEntity.ok(taskServices.sort(2));
+    }
+
+    @GetMapping("/SortByStatus")
+    public  ResponseEntity<List<Task>> SortByStatus(){
+        return ResponseEntity.ok(taskServices.sort(1));
+    }
+
+    @GetMapping("/SortByDate")
+    public  ResponseEntity<List<Task>> SortByDate(){
+        return ResponseEntity.ok(taskServices.sort(3));
+    }
+
+    @GetMapping("/removeTask/{id}")//the get does not have a body that why we pass the required parameter with the path or build it as a post
+    public void removeTak(@PathVariable  Long id ) throws IdNotFoundException {
+      taskServices.removeTask(id);
+    }
+
 
 
 

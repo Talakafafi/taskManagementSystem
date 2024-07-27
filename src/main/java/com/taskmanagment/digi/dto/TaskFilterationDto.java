@@ -1,5 +1,14 @@
 package com.taskmanagment.digi.dto;
+/**
 
+ used as the body of task /filter API
+
+ {
+ "status": "INPROGRESS",
+ "priority": "HIGH",
+ "dueDate": "2024-08-15"
+ }
+ */
 import com.taskmanagment.digi.entities.TaskPriority;
 import com.taskmanagment.digi.entities.TaskStatus;
 import lombok.*;
@@ -15,10 +24,3 @@ public class TaskFilterationDto {
     private LocalDate dueDate;
 }
 
-/**
- * {
- *   "status": "INPROGRESS",
- *   "priority": "HIGH",
- *   "dueDate": "2024-08-15"
- * }
- */

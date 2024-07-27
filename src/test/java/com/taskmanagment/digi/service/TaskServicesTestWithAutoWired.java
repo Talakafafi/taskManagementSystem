@@ -2,6 +2,7 @@ package com.taskmanagment.digi.service;
 
 import com.taskmanagment.digi.dto.TaskFilterationDto;
 import com.taskmanagment.digi.dto.TaskRequestDto;
+import com.taskmanagment.digi.dto.TaskUpdateRequestDto;
 import com.taskmanagment.digi.entities.*;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.exception.type.UnmatchedUsers;
@@ -83,7 +84,7 @@ class TaskServicesTestWithAutoWired {
     void updateTask_UpdatesTheTitleForExistingTask_ReturnsTrue() throws IdNotFoundException {
         Long taskId = taskId();
 
-        TaskRequestDto taskRequestDto = new TaskRequestDto();
+        TaskUpdateRequestDto taskRequestDto = new TaskUpdateRequestDto();
         taskRequestDto.setTitle("new title ");
 
         Task updatedTask = taskService.updateUser(taskId, taskRequestDto);
@@ -95,8 +96,8 @@ class TaskServicesTestWithAutoWired {
     void updateTask_UpdatesAllFieldsForExistingTask_ReturnsTrue() throws IdNotFoundException {
         Long taskId = taskId();
 
-        TaskRequestDto taskRequestDto =  TaskRequestDto.build("Task5","Description5", TaskStatus.COMPLETED,
-                TaskPriority.LOW, LocalDate.parse("2023-05-12"),null);
+        TaskUpdateRequestDto taskRequestDto =  TaskUpdateRequestDto.build("Task5","Description5", TaskStatus.COMPLETED,
+                TaskPriority.LOW, LocalDate.parse("2023-05-12"));
 
         Task updatedTask = taskService.updateUser(taskId, taskRequestDto);
 
@@ -112,7 +113,7 @@ class TaskServicesTestWithAutoWired {
     @Test
     @Transactional
     void updateTask_UpdatesTheTitleForNotExistingId_ThrowsIdNotFoundExceptionException() throws IdNotFoundException {
-        TaskRequestDto taskRequestDto = new TaskRequestDto();
+        TaskUpdateRequestDto taskRequestDto = new TaskUpdateRequestDto();
         taskRequestDto.setTitle("new title ");
 
         assertThrows(IdNotFoundException.class, () -> {
@@ -134,6 +135,7 @@ class TaskServicesTestWithAutoWired {
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setStatus(TaskStatus.INPROCESSING);
 
+
             taskRepository.saveAll(tasks());
             List<Task> filteredTasks = taskService.taskFiltration(filterDto);
 
@@ -145,9 +147,11 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithSpecificPriority_ReturnsTrue() {
-
+            taskRepository.deleteAll();
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setPriority(TaskPriority.HIGH);
+
+
 
             taskRepository.saveAll(tasks());
             List<Task> filteredTasks = taskService.taskFiltration(filterDto);
@@ -160,9 +164,10 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithSpecificDate_ReturnsTrue() {
-
+            taskRepository.deleteAll();
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setDueDate(LocalDate.parse("2023-05-08"));
+
 
             taskRepository.saveAll(tasks());
 
@@ -175,7 +180,7 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksWithAllFilters_ReturnsTrue() {
-
+            taskRepository.deleteAll();
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setStatus(TaskStatus.INPROCESSING);
             filterDto.setPriority(TaskPriority.HIGH);
@@ -192,15 +197,14 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithNoFilters_ReturnsTrue() {
+            taskRepository.deleteAll();
+            taskRepository.saveAll(tasks());
 
             TaskFilterationDto filterDto = new TaskFilterationDto();
-
-
-            taskRepository.saveAll(tasks());
             List<Task> filteredTasks = taskService.taskFiltration(filterDto);
 
 
-            assertEquals(3, filteredTasks.size());
+            assertEquals(3, filteredTasks.size(),"size is wrong ");
             assertEquals("Task1", filteredTasks.get(0).getTitle());
             assertEquals("Task2", filteredTasks.get(1).getTitle());
             assertEquals("Task3", filteredTasks.get(2).getTitle());

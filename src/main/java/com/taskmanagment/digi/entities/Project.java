@@ -19,7 +19,7 @@ public class Project {
     @Column(name = "PROJECT_NAME")
     private String name;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL , orphanRemoval = true) //when a Project is deleted, all associated Task entities are also deleted.
     private List<Task> tasks;
 
 

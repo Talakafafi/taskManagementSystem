@@ -6,9 +6,14 @@ package com.taskmanagment.digi.repository;
  * it has an essential role at the service layer
  */
 
+import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
+import java.util.Set;
 
 @RepositoryRestResource
 
@@ -22,4 +27,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
      * @return User object associated the ID
      */
     User findByUserId(Long userId);
+
+
+
 }

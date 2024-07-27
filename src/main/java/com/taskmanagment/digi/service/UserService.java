@@ -14,6 +14,7 @@ import com.taskmanagment.digi.dto.UserRequestDto;
 import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
+import com.taskmanagment.digi.repository.TaskRepository;
 import com.taskmanagment.digi.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,12 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired // handles object creation for you
+    @Autowired
     private UserRepository userRepository;
+
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     /**
      * saves the user in the database
@@ -37,10 +42,20 @@ public class UserService {
         return userRepository.save(new User(userRequest.getUsername(), userRequest.getEmail()));
     }
 
+    /**
+     * get all users
+     * @return
+     */
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
+    /**
+     * get specific user
+     * @param userId
+     * @return
+     * @throws IdNotFoundException
+     */
 
     public User getUser(Long userId) throws IdNotFoundException {
         User user=   userRepository.findByUserId(userId);
@@ -51,6 +66,13 @@ public class UserService {
         }
     }
 
+    /**
+     * updats the user
+     * @param userId
+     * @param newUser
+     * @return
+     * @throws IdNotFoundException
+     */
     public User updateUser(Long userId, UserRequestDto newUser) throws IdNotFoundException {
         User updatedUser = userRepository.findByUserId(userId);
         if(updatedUser!=null){
@@ -65,6 +87,10 @@ public class UserService {
     public User removeUser(Long userId) throws IdNotFoundException {
         User deletedUser = userRepository.findByUserId(userId);
         if (deletedUser != null) {
+
+          Set<Task> tasks = deletedUser.getTasks();
+
+
             userRepository.delete(deletedUser);
             return deletedUser;
         } else {

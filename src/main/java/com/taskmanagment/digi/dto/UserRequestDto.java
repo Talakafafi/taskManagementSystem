@@ -10,25 +10,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
-
-
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 /**
- * provides a template for the required data to be filled
+  provides a template for the required data to be filled
+ {
+   "username": "user",
+    "email": "user@gmail.com"
+  }
  */
 public class UserRequestDto {
-    @NotNull(message = "username ")
+    @NotNull(message = "username cannot be null ")
     private String username;
 
-    @NotNull(message = "Email ")
+    @NotNull(message = "username cannot be null ")
     @Email(message = "invalid Email")
     private String email;
 }
-/**
- * {
- *   "username": "user",
- *   "email": "user@gmail.com"
- * }
- */

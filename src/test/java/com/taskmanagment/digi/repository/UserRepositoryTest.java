@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRepositoryTest {
     @Autowired
     UserRepository userRepository ;
+    @Autowired
+    TaskRepository taskRepository;
     @Test
     @Transactional
     @Rollback
@@ -34,7 +36,7 @@ class UserRepositoryTest {
 
 
     @Test
-    @Transactional //@Transactional annotation ensures that the Hibernate session remains open for the duration of the test, allowing lazy-loaded collections to be accessed.
+    @Transactional //@Transactional annotation ensures that the Hibernate session remains open for the duration of the test
     @Rollback
     public void findByUserId_findExistingUserByItsId_returnTrue() {
         // Arrange
@@ -60,22 +62,22 @@ class UserRepositoryTest {
         assertNull(userRepository.findByUserId(newUserUserId));
     }
 
-//    @Test
-//    @Transactional
-//    @Rollback
-//    public void findAll_listAllExistingUser_returnTrue(){
-//        // Arrange: Create and save two users
-//        User user1 = new User("user", "user@gmail.com");
-//        User user2 = new User("user2", "user2@gmail.com");
-//        userRepository.save(user1);
-//        userRepository.save(user2);
-//
-//        // Act: Retrieve all users from the repository
-//        List<User> foundUsers = userRepository.findAll();
-//
-//        // Assert: Check that the size matches and the content is as expected
-//        assertEquals(2, foundUsers.size());
-//
-//
-//}
+    @Test
+    @Transactional
+    @Rollback
+    public void findAll_listAllExistingUser_returnTrue(){
+        taskRepository.deleteAll();
+         userRepository.deleteAll();
+
+        User user1 = new User("user", "user@gmail.com");
+        User user2 = new User("user2", "user2@gmail.com");
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        List<User> foundUsers = userRepository.findAll();
+
+        assertEquals(2, foundUsers.size());
+
+
+}
 }

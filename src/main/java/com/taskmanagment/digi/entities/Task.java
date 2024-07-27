@@ -43,9 +43,9 @@ public class Task {
     private Project project;
 
 
-    @ManyToMany( cascade = CascadeType.ALL  )//lazy fetch by default
-        @JoinTable(name = "TASKS_USERS", joinColumns = {@JoinColumn(name = "REF_TASK_ID", referencedColumnName = "TASK_ID")
-    }, inverseJoinColumns = {@JoinColumn(name = "REF_USER_ID", referencedColumnName = "USER_ID")})
+    @ManyToMany//lazy fetch by default
+        @JoinTable(name = "TASKS_USERS", joinColumns = {@JoinColumn(name = "REF_TASK_ID", referencedColumnName = "TASK_ID" )
+    }, inverseJoinColumns = {@JoinColumn(name = "REF_USER_ID", referencedColumnName = "USER_ID" )} )
     private Set<User> users ;
 
 

@@ -1,6 +1,8 @@
 package com.taskmanagment.digi.service;
+/**
+ * this service is for the operation that related to both userRepository and taskRepository
+ */
 
-import com.taskmanagment.digi.dto.TaskRequestDto;
 import com.taskmanagment.digi.dto.TaskUserRequestDto;
 import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
@@ -11,36 +13,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class Task_UserService {
+public class TaskUserService {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Adds task here you pass list of Ids and first will check if the ids are exist in the database or not
+     * @param taskRequestDto
+     * @return
+     * @throws UnmatchedUsers
+     */
     public Task addTask(TaskUserRequestDto taskRequestDto ) throws UnmatchedUsers {
-
-        Task task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
-                , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, null);
-
-        if (!taskRequestDto.getUsersId().isEmpty()) {
+        Task task ;
+        if (taskRequestDto.getUsersId().isEmpty()) {
+          task =Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
+                    , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, null);
+            return taskRepository.save(task);}
+        else{
             Set<User> matchedUsers = userRepository.findAll().stream()
                     .filter(user -> taskRequestDto.getUsersId().contains(user.getUserId()))
                     .collect(Collectors.toSet());
 
             if (matchedUsers.isEmpty()) {
                 throw new UnmatchedUsers();
-            } else
-                task.setUsers(matchedUsers);
+            } else{
+       task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
+                        , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, matchedUsers);
+
+
             return taskRepository.save(task);
+            }
         }
-        return taskRepository.save(task);
+
     }
+
+    /**
+     * g=returns all tasks with all associated users
+     * @param userId
+     * @return
+     */
 
     public List<Task> getAllTasks(Long userId){
         Stream<Task> streamFromList = taskRepository.findAll().stream();

@@ -3,7 +3,7 @@ package com.taskmanagment.digi.controller;
 import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.service.TaskServices;
-import com.taskmanagment.digi.service.Task_UserService;
+import com.taskmanagment.digi.service.TaskUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks/Users")
-public class Task_UserController {
+public class TaskUserController {
     @Autowired
     private TaskServices taskServices;
     @Autowired
-    private Task_UserService taskUserService;
+    private TaskUserService taskUserService;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<Task>> getTaskAssociatedWithUser(@PathVariable Long id ) throws IdNotFoundException {

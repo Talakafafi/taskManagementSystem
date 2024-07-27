@@ -9,6 +9,7 @@ package com.taskmanagment.digi.exception.handler;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.exception.type.UnmatchedUsers;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,15 +32,16 @@ public class ApplicationExceptionHandler {
     public Map<String,String> handleInvalidArgument(MethodArgumentNotValidException ex){
         Map<String,String> errorMap=new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error->{
-            errorMap.put(error.getField(),error.getDefaultMessage()); //
+            errorMap.put("errorMessage",error.getDefaultMessage()); //
         });
         return errorMap;
     }
 
     /**
-     * handles the error thrown when the user insert id for a user does not exist
+     * handles the error thrown when the user insert id for an entity does not exist
      * @param ex
-     * @return  Map<String , String> will return errorMessage with the message you pass when invoke the method
+     * @return  Map<String , String> will return errorMessage with the message
+     *                               you pass when invoke the method
      */
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -50,11 +52,31 @@ public class ApplicationExceptionHandler {
         return errorMap;
     }
 
+    /**
+     * this error is Thrown when searching for unExist user
+     * @param ex
+     * @return will return errorMessage with the message
+     *                       you pass when invoke the method
+     */
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UnmatchedUsers.class)
     public Map<String , String> UnmatchedUserExceptionHandler (UnmatchedUsers ex){
         Map<String,String> errorMap = new HashMap<>();
         errorMap.put("errorMessage",ex.getMessage());
+        return errorMap;
+    }
+
+    /**
+     * This error thrown when insert invalid value for the status , priority or date
+     * @param ex
+     * @return
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler( HttpMessageNotReadableException.class)
+    public Map<String , String> handleInvalidArgument( HttpMessageNotReadableException ex){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage","Invalid value");
         return errorMap;
     }
 }

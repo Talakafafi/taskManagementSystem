@@ -1,6 +1,7 @@
 package com.taskmanagment.digi.controller;
 
 import com.taskmanagment.digi.dto.UserRequestDto;
+import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
 import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -41,6 +44,17 @@ public class UserController {
     public ResponseEntity<User> getUser(@PathVariable  Long id ) throws IdNotFoundException {
         return ResponseEntity.ok(userService.getUser(id));
     }
+
+    @GetMapping("/removeUser/{id}")//the get does not have a body that why we pass the required parameter with the path or build it as a post
+    public ResponseEntity<User> removeUser(@PathVariable  Long id ) throws IdNotFoundException {
+        return ResponseEntity.ok(userService.removeUser(id));
+    }
+
+    @GetMapping("/userTasks/{id}")
+    public ResponseEntity<Set<Task>> getUserTask(@PathVariable  Long id ) throws IdNotFoundException {
+        return ResponseEntity.ok(userService.getUserTasks(id));
+    }
+
 }
 
 
