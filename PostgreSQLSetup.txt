@@ -1,0 +1,33 @@
+Set up a Spring Boot project with PostgreSQL using pgAdmin and IntelliJ IDEA:
+
+1.Create a Server in pgAdmin
+   - Server Details:
+     - Host name/address:   localhost
+     - Port             :   5432
+     - Username         :   postgres
+     - Password         :   talakafafi
+
+2. Create a Database:
+   - Name the database  : Digi
+
+3. Create an Empty Spring Boot Project Using Spring Initializer(https://start.spring.io/)
+
+4. Add Dependencies to help with communicate with the database :
+     - Spring Data JPA
+     - PostgreSQL Driver
+
+5. Open the Project in IntelliJ IDE
+
+6.Configure Hibernate and PostgreSQL in application.properties file
+  - properties :
+    - spring.datasource.url=jdbc:postgresql://localhost:5432/Digi
+    - spring.datasource.username=postgres
+    - spring.datasource.password=talakafafi
+    - spring.datasource.schema=public
+
+    - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    - spring.jpa.properties.hibernate.hbm2ddl.auto=update
+    - spring.jpa.show-sql=true
+
+7. Run the Project to connect to the database
+
