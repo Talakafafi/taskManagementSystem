@@ -2,9 +2,10 @@ package com.taskmanagment.digi.dto;
 
 import com.taskmanagment.digi.entities.TaskPriority;
 import com.taskmanagment.digi.entities.TaskStatus;
-import com.taskmanagment.digi.entities.User;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-public class TaskRequestDto {
+public class TaskUserRequestDto {
     @NotNull
     private String title;
     @NotNull
@@ -23,26 +24,16 @@ public class TaskRequestDto {
     private TaskPriority priority;
     @NotNull
     private LocalDate dueDate;
-    private Set<User> users;
+
+    private Set<Long> usersId;
 }
 /**
- * {
- *   "title": "Task Title",
- *   "description": "Task description goes here.",
- *   "status": "COMPLETED",
- *   "priority": "HIGH",
- *   "dueDate": "2024-07-31",
- *   "users": [
- *     {
- *       "id": 1,
- *       "name": "User1",
- *       "email": "user1@example.com"
- *     },
- *     {
- *       "id": 2,
- *       "name": "User2",
- *       "email": "user2@example.com"
- *     }
- *   ]
- * }
+ {
+ "title": "Sample Task Title",
+ "description": "This is a sample task description.",
+ "status": "INCOMPLETE",
+ "priority": "HIGH",
+ "dueDate": "2024-07-31",
+ "usersId": [1, 2, 3]
+ }
  */

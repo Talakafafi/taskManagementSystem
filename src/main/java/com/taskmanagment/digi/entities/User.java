@@ -5,10 +5,11 @@ package com.taskmanagment.digi.entities;
  * name it Step 1 in the building road
  */
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.util.Set;
 
 
 @Data  //having implicit @Getter, @Setter, @ToString, @EqualsAndHashCode
@@ -16,27 +17,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 @Table(name = "USERS")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class , property = "userId")
 public class User {
-    private Integer userId;
-    private String username;
-    private String email;
 
     @Id
-    @GeneratedValue(generator = "userIdGen",strategy =GenerationType.AUTO )
-    @Column(name = "USER_ID")
-    public Integer getUserId() {
-        return userId;
-    }
+    @GeneratedValue(generator = "userIdGen", strategy = GenerationType.SEQUENCE)//very efficient and allows Hibernate to decide when to perform the insert statement
+    @Column(name = "USER_ID")                                                   //Auto which is the default  For most popular databases, it selects GenerationType.SEQUENCE
+    private Long userId;
 
     @Column(name = "USER_USERNAME")
-    public String getUsername() {
-        return username;
-    }
+    private String username;
 
     @Column(name = "USER_EMAIL")
-    public String getEmail() {
-        return email;
+    private String email;
+
+    @ManyToMany(mappedBy = "users" )
+    private Set<Task> tasks;
+
+
+    public User(String username, String email) {
+        this.setUsername(username);
+        this.setEmail(email);
     }
-
-
 }

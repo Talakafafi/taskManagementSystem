@@ -15,11 +15,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * handles database operations like fetching, deleting, and inserting records in the USER table
  */
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,Long> {
     /**
      * customized method to find the user record associated with specific ID
      * @param userId ID of the required user
      * @return User object associated the ID
      */
-    User findByUserId(int userId);
+    User findByUserId(Long userId);
 }

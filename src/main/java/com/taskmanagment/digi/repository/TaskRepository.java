@@ -8,5 +8,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface TaskRepository extends JpaRepository<Task,Integer> {
 
-    Task findByTaskId(int taskId);
+    Task findByTaskId(Long taskId);
 }

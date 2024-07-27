@@ -2,10 +2,7 @@ package com.taskmanagment.digi.dto;
 
 import com.taskmanagment.digi.entities.TaskPriority;
 import com.taskmanagment.digi.entities.TaskStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDate;
 
 @Data
@@ -17,3 +14,11 @@ public class TaskFilterationDto {
     private TaskPriority priority;
     private LocalDate dueDate;
 }
+
+/**
+ * {
+ *   "status": "INPROGRESS",
+ *   "priority": "HIGH",
+ *   "dueDate": "2024-08-15"
+ * }
+ */

@@ -11,14 +11,16 @@ package com.taskmanagment.digi.service;
  */
 
 import com.taskmanagment.digi.dto.UserRequestDto;
+import com.taskmanagment.digi.entities.Task;
 import com.taskmanagment.digi.entities.User;
-import com.taskmanagment.digi.exception.type.UserNotFoundException;
+import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.repository.UserRepository;
-import jakarta.validation.Valid;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -32,46 +34,49 @@ public class UserService {
      * @return the Inserted User
      */
     public User addUser( UserRequestDto userRequest){
-        return  userRepository.save(User.build(0,userRequest.getUsername(),userRequest.getEmail()));
+        return userRepository.save(new User(userRequest.getUsername(), userRequest.getEmail()));
     }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    /**
-     * gets the user with specific ID
-     * @param userId
-     * @return
-     * @throws UserNotFoundException customized user thrown when the inserted ID does not exist
-     */
-    public User getUser(int userId) throws UserNotFoundException {
+
+    public User getUser(Long userId) throws IdNotFoundException {
         User user=   userRepository.findByUserId(userId);
         if(user!=null){
           return user;
         }else{
-            throw new UserNotFoundException("User not found with id : "+userId);
+            throw new IdNotFoundException(User.class.getName(), userId);
         }
     }
 
-    public User updateUser(int userId , UserRequestDto newUser ) throws UserNotFoundException {
+    public User updateUser(Long userId, UserRequestDto newUser) throws IdNotFoundException {
         User updatedUser = userRepository.findByUserId(userId);
         if(updatedUser!=null){
         updatedUser.setEmail(newUser.getEmail() == null ? updatedUser.getEmail() : newUser.getEmail());
         updatedUser.setUsername(newUser.getUsername() == null ? updatedUser.getUsername() : newUser.getUsername());
             return updatedUser;
         }else{
-            throw new UserNotFoundException("User not found with id : "+userId);
+            throw new IdNotFoundException(User.class.getName(), userId);
     }
     }
 
-    public User removeUser(int userId) throws UserNotFoundException {
+    public User removeUser(Long userId) throws IdNotFoundException {
         User deletedUser = userRepository.findByUserId(userId);
         if (deletedUser != null) {
             userRepository.delete(deletedUser);
             return deletedUser;
         } else {
-            throw new UserNotFoundException("User not found with id : " + userId);//create my own exception
+            throw new IdNotFoundException(User.class.getName(), userId);
+        }
+    }
+    public Set<Task> getUserTasks(Long userId) throws IdNotFoundException {
+        User user=   userRepository.findByUserId(userId);
+        if(user!=null){
+            return user.getTasks();
+        }else{
+            throw new IdNotFoundException(User.class.getName(), userId);
         }
     }
 

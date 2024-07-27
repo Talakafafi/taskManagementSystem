@@ -6,8 +6,8 @@ package com.taskmanagment.digi.exception.handler;
  *
  */
 
-import com.taskmanagment.digi.exception.type.TaskNotFoundException;
-import com.taskmanagment.digi.exception.type.UserNotFoundException;
+import com.taskmanagment.digi.exception.type.IdNotFoundException;
+import com.taskmanagment.digi.exception.type.UnmatchedUsers;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,17 +41,18 @@ public class ApplicationExceptionHandler {
      * @param ex
      * @return  Map<String , String> will return errorMessage with the message you pass when invoke the method
      */
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(UserNotFoundException.class)
-    public Map<String , String> handleBusinessException(UserNotFoundException ex){
+    @ExceptionHandler(IdNotFoundException.class)
+    public Map<String , String> handleIDNotFoundException(IdNotFoundException ex){
         Map<String,String> errorMap = new HashMap<>();
         errorMap.put("errorMessage",ex.getMessage());
         return errorMap;
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(TaskNotFoundException.class)
-    public Map<String , String> handleTaskNotFoundException(UserNotFoundException ex){
+    @ExceptionHandler(UnmatchedUsers.class)
+    public Map<String , String> UnmatchedUserExceptionHandler (UnmatchedUsers ex){
         Map<String,String> errorMap = new HashMap<>();
         errorMap.put("errorMessage",ex.getMessage());
         return errorMap;

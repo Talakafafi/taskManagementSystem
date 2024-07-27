@@ -1,9 +1,7 @@
 package com.taskmanagment.digi.dto;
 
 import com.taskmanagment.digi.entities.Task;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,5 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ProjectRequestDto {
     private String name;
-    private List<Task> tasks;
 }
+/**
+ * {
+ *   "name": "Sample Project Name"
+ * }
+ */

@@ -2,7 +2,7 @@ package com.taskmanagment.digi.controller;
 
 import com.taskmanagment.digi.dto.UserRequestDto;
 import com.taskmanagment.digi.entities.User;
-import com.taskmanagment.digi.exception.type.UserNotFoundException;
+import com.taskmanagment.digi.exception.type.IdNotFoundException;
 import com.taskmanagment.digi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,6 @@ public class UserController {
 
     /**
      * {
-     *   "username": "user",
-     *   "email": "user@gmail.com"
-     * }
      * @param userRequest
      * @return
      *
@@ -41,7 +38,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")//the get does not have a body that why we pass the required parameter with the path or build it as a post
-    public ResponseEntity<User> getUser(@PathVariable  int id ) throws UserNotFoundException {
+    public ResponseEntity<User> getUser(@PathVariable  Long id ) throws IdNotFoundException {
         return ResponseEntity.ok(userService.getUser(id));
     }
 }
