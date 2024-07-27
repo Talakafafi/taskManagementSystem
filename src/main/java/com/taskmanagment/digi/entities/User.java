@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,8 +33,8 @@ public class User {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @ManyToMany(mappedBy = "users"  )
-    private Set<Task> tasks;
+    @ManyToMany(mappedBy = "users"  ,cascade = CascadeType.ALL)//this is not the owner entity
+    private List<Task> tasks;
 
 
     public User(String username, String email) {

@@ -10,6 +10,8 @@ import com.taskmanagment.digi.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProjectService {
     @Autowired
@@ -76,6 +78,11 @@ public class ProjectService {
      */
     public Long numberOfTasksWithStatus(TaskStatus taskStatus){
             return  taskRepository.findAll().stream().filter(x -> x.getStatus().equals(taskStatus)).count();
+        }
+
+        public Project getProject(Long projectId){
+        return projectRepository.findByProjectId(projectId);
+
         }
 
 

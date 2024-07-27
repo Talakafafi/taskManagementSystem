@@ -26,6 +26,11 @@ public class ProjectController {
         return projectService.addNewTask(id,taskUserRequestDto);
     }
 
+    @GetMapping("/{id}")
+    public Project  getproject (@PathVariable Long id ) throws  IdNotFoundException {
+        return projectService.getProject(id);
+    }
+
 
 
 }

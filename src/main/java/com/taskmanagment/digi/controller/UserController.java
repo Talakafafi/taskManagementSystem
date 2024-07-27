@@ -46,12 +46,12 @@ public class UserController {
     }
 
     @GetMapping("/removeUser/{id}")//the get does not have a body that why we pass the required parameter with the path or build it as a post
-    public ResponseEntity<User> removeUser(@PathVariable  Long id ) throws IdNotFoundException {
-        return ResponseEntity.ok(userService.removeUser(id));
+    public void removeUser(@PathVariable  Long id ) throws IdNotFoundException {
+        userService.removeUser(id);
     }
 
     @GetMapping("/userTasks/{id}")
-    public ResponseEntity<Set<Task>> getUserTask(@PathVariable  Long id ) throws IdNotFoundException {
+    public ResponseEntity<List<Task>> getUserTask(@PathVariable  Long id ) throws IdNotFoundException {
         return ResponseEntity.ok(userService.getUserTasks(id));
     }
 

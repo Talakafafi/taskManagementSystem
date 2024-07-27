@@ -3,6 +3,7 @@ package com.taskmanagment.digi.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -12,7 +13,7 @@ import java.util.List;
 public class Project {
 
     @Id
-    @GeneratedValue(generator = "projectIdGen", strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "projectIdGen", strategy = GenerationType.SEQUENCE)
     @Column(name = "PROJECT_ID")
     private Long projectId;
 

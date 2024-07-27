@@ -18,6 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -35,5 +36,5 @@ public class TaskUserRequestDto {
     @NotNull(message = "Date cannot be null ")
     private LocalDate dueDate;
 
-    private Set<Long> usersId;
+    private List<Long> usersId;
 }

@@ -24,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,5 +42,5 @@ public class TaskRequestDto {
     @NotNull
     private LocalDate dueDate;
 
-    private Set<User> users;
+    private List<User> users;
 }

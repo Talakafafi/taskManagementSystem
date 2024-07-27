@@ -26,29 +26,30 @@ public class TaskUserService {
 
     /**
      * Adds task here you pass list of Ids and first will check if the ids are exist in the database or not
+     *
      * @param taskRequestDto
      * @return
      * @throws UnmatchedUsers
      */
-    public Task addTask(TaskUserRequestDto taskRequestDto ) throws UnmatchedUsers {
-        Task task ;
+    public Task addTask(TaskUserRequestDto taskRequestDto) throws UnmatchedUsers {
+        Task task;
         if (taskRequestDto.getUsersId().isEmpty()) {
-          task =Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
+            task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
                     , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, null);
-            return taskRepository.save(task);}
-        else{
-            Set<User> matchedUsers = userRepository.findAll().stream()
+            return taskRepository.save(task);
+        } else {
+            List<User> matchedUsers = userRepository.findAll().stream()
                     .filter(user -> taskRequestDto.getUsersId().contains(user.getUserId()))
-                    .collect(Collectors.toSet());
+                    .toList();
 
             if (matchedUsers.isEmpty()) {
                 throw new UnmatchedUsers();
-            } else{
-       task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
+            } else {
+                task = Task.build(null, taskRequestDto.getTitle(), taskRequestDto.getDescription(), taskRequestDto.getStatus()
                         , taskRequestDto.getPriority(), taskRequestDto.getDueDate(), null, matchedUsers);
 
 
-            return taskRepository.save(task);
+                return taskRepository.save(task);
             }
         }
 
@@ -56,14 +57,15 @@ public class TaskUserService {
 
     /**
      * g=returns all tasks with all associated users
+     *
      * @param userId
      * @return
      */
 
-    public List<Task> getAllTasks(Long userId){
+    public List<Task> getAllTasks(Long userId) {
         Stream<Task> streamFromList = taskRepository.findAll().stream();
         streamFromList = streamFromList.filter((task -> task.getUsers().contains(userRepository.findByUserId(userId))));
-        return  streamFromList.toList();
+        return streamFromList.toList();
 
     }
 }

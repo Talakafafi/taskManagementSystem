@@ -147,10 +147,9 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithSpecificPriority_ReturnsTrue() {
-            taskRepository.deleteAll();
+
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setPriority(TaskPriority.HIGH);
-
 
 
             taskRepository.saveAll(tasks());
@@ -164,7 +163,7 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithSpecificDate_ReturnsTrue() {
-            taskRepository.deleteAll();
+
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setDueDate(LocalDate.parse("2023-05-08"));
 
@@ -180,7 +179,7 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksWithAllFilters_ReturnsTrue() {
-            taskRepository.deleteAll();
+
             TaskFilterationDto filterDto = new TaskFilterationDto();
             filterDto.setStatus(TaskStatus.INPROCESSING);
             filterDto.setPriority(TaskPriority.HIGH);
@@ -197,6 +196,10 @@ class TaskServicesTestWithAutoWired {
         @Test
         @Transactional
         void taskFiltration_GetsTheTasksAWithNoFilters_ReturnsTrue() {
+
+
+
+            List<Task> tasks = taskRepository.findAll();
             taskRepository.deleteAll();
             taskRepository.saveAll(tasks());
 

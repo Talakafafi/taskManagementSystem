@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class , property = "taskId")
 public class Task {
     @Id
-    @GeneratedValue(generator = "taskIdGen",strategy = GenerationType.AUTO )
+    @GeneratedValue(generator = "taskIdGen",strategy = GenerationType.SEQUENCE )
     @Column(name = "TASK_ID")
     private Long taskId;
 
@@ -43,10 +44,10 @@ public class Task {
     private Project project;
 
 
-    @ManyToMany//lazy fetch by default
+    @ManyToMany(cascade = CascadeType.PERSIST)//lazy fetch by default
         @JoinTable(name = "TASKS_USERS", joinColumns = {@JoinColumn(name = "REF_TASK_ID", referencedColumnName = "TASK_ID" )
     }, inverseJoinColumns = {@JoinColumn(name = "REF_USER_ID", referencedColumnName = "USER_ID" )} )
-    private Set<User> users ;
+    private List<User> users ;
 
 
     public Task(String taskTitle, String taskDescription, TaskStatus taskStatus, TaskPriority taskPriority, LocalDate date) {

@@ -84,20 +84,20 @@ public class UserService {
     }
     }
 
-    public User removeUser(Long userId) throws IdNotFoundException {
+    public void  removeUser(Long userId) throws IdNotFoundException {
         User deletedUser = userRepository.findByUserId(userId);
         if (deletedUser != null) {
 
-          Set<Task> tasks = deletedUser.getTasks();
+          List<Task> tasks = deletedUser.getTasks();
 
 
             userRepository.delete(deletedUser);
-            return deletedUser;
+
         } else {
             throw new IdNotFoundException(User.class.getName(), userId);
         }
     }
-    public Set<Task> getUserTasks(Long userId) throws IdNotFoundException {
+    public List<Task> getUserTasks(Long userId) throws IdNotFoundException {
         User user=   userRepository.findByUserId(userId);
         if(user!=null){
             return user.getTasks();
